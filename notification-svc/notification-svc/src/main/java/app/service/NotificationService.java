@@ -39,6 +39,8 @@ public class NotificationService {
     }
 
 
+
+
     public NotificationPreference upsertPreference(UpsertNotificationPreference dto) {
 
         // upsert
@@ -80,6 +82,8 @@ public class NotificationService {
                 .findByUserId (userId).orElseThrow (() -> new NullPointerException ("NotificationPreference for user id %s was not found!"
                 .formatted (userId)));// if not found - throw exception
     }
+
+
 
 
 
@@ -128,10 +132,12 @@ public class NotificationService {
 
 
 
+
     public List <Notification> getNotificationHistory(UUID userId) {
 
       return notificationRepository.findAllByUserIdAndDeletedIsFalse (userId);
     }
+
 
 
 

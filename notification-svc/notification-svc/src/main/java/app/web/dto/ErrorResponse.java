@@ -1,7 +1,14 @@
 package app.web.dto;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Data
+@Getter
+@Setter
 public class ErrorResponse {
 
 
@@ -12,9 +19,11 @@ public class ErrorResponse {
     private LocalDateTime time;
 
 
-    public ErrorResponse(String message, int status) {
-        this.message = message;
+
+
+    public ErrorResponse(int status, String message) {
         this.status = status;
+        this.message = message;
         this.time = LocalDateTime.now();
     }
 }
