@@ -30,15 +30,13 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                         .requestMatchers("/", "/register").permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
                         .loginPage("/login")
-//                        .usernameParameter("username") //default
-//                        .passwordParameter("password") //default
-                        .defaultSuccessUrl("/home", true)  // show home page if login success
-                        .failureUrl("/login?error") // show error if login failed
+//                        .usernameParameter("username")
+//                        .passwordParameter("password")
+                        .defaultSuccessUrl("/home", true)
+                        .failureUrl("/login?error")
                         .permitAll())
-
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                         .logoutSuccessUrl("/")

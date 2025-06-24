@@ -1,5 +1,6 @@
 package app.web;
 
+import app.exception.UsernameAlreadyExistException;
 import app.security.AuthenticationMetadata;
 
 import app.user.model.User;
@@ -13,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.validation.BindingResult;
+
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,22 +36,29 @@ public class IndexController {
     }
 
 
-    // Когато не връщаме модел атрибури, ползваме String
+
+    @GetMapping("/")
+    public String getIndexPage() {
+
+        return "index";
+    }
+
+
+
+
     @GetMapping("/login")
-    public ModelAndView getLoginPage(@RequestParam (value = "error", required = false) String errorParam) {
+    public ModelAndView getLoginPage(@RequestParam(value = "error", required = false) String errorParam) {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         modelAndView.addObject("loginRequest", new LoginRequest());
 
         if (errorParam != null) {
-            modelAndView.addObject("errorMassage", "Invalid username or password!");
+            modelAndView.addObject("errorMessage", "Incorrect username or password!");
         }
 
         return modelAndView;
     }
-
-
 
 
 
@@ -67,15 +76,17 @@ public class IndexController {
 
 
     @PostMapping("/register")
-    public ModelAndView registerNewUser (@Valid RegisterRequest registerRequest, BindingResult bindingResult) {
+    public ModelAndView registerNewUser(@Valid RegisterRequest registerRequest, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("register");
         }
+
         userService.register(registerRequest);
 
         return new ModelAndView("redirect:/login");
     }
+
 
 
 

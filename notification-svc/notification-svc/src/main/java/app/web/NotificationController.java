@@ -92,6 +92,8 @@ public class NotificationController {
     }
 
 
+
+
     @PutMapping("/preferences")
     public ResponseEntity<NotificationPreferencesResponse> changeNotificationPreference (@RequestParam (name = "userId") UUID userId, @RequestParam (name = "enabled") boolean enabled) {
 
