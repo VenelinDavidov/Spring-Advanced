@@ -108,7 +108,9 @@ public class UserService  implements UserDetailsService {
         user.setProfilePicture(userEditRequest.getProfilePicture());
 
         if (!userEditRequest.getEmail ().isBlank ()){
-           notificationService.saveNotificationPreference (userId, true, userEditRequest.getEmail());
+            notificationService.saveNotificationPreference (userId, true, userEditRequest.getEmail());
+        } else {
+            notificationService.saveNotificationPreference (userId, false, null);
         }
 
         userRepository.save(user);

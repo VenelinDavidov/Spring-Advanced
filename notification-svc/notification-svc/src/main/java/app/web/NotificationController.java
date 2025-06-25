@@ -107,6 +107,26 @@ public class NotificationController {
     }
 
 
+    @DeleteMapping
+    public ResponseEntity <String> deleteNotificationHistory ( @RequestParam (name = "userId") UUID userId) {
+
+    notificationService.deleteNotificationHistory (userId);
+
+    return ResponseEntity
+            .ok ()
+            .body ("nul");
+    }
+
+
+    @PutMapping
+    public ResponseEntity <Void> retryFailedNotifications(@RequestParam (name = "userId") UUID userId) {
+
+        notificationService.retryFailedNotifications (userId);
+
+        return ResponseEntity
+                .status (HttpStatus.OK)
+                .body (null);
+    }
 
 
 

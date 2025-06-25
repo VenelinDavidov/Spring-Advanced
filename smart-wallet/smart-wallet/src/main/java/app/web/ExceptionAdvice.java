@@ -1,5 +1,6 @@
 package app.web;
 
+import app.exception.NotificationServiceFeignCallException;
 import app.exception.UsernameAlreadyExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MissingRequestValueException;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -25,16 +26,30 @@ public class ExceptionAdvice  {
 
     // 1
     @ExceptionHandler(UsernameAlreadyExistException.class)
-    public String handleUsernameAlreadyExistError(RedirectAttributes redirectAttributes) {
+    public String handleUsernameAlreadyExistError(RedirectAttributes redirectAttributes, UsernameAlreadyExistException exception) {
 
         // Option 1
         //Autowire HttpServletRequest request
         //String username = request.getParameter("username");
         //String message = "%s is already in use!".formatted(username);
 
-        redirectAttributes.addFlashAttribute("usernameAlreadyExist", "This username already exist");
+        // Option 2
+        String message = exception.getMessage ();
+        redirectAttributes.addFlashAttribute("usernameAlreadyExist", message);
 
         return "redirect:/register";
+    }
+
+
+
+
+    @ExceptionHandler(NotificationServiceFeignCallException.class)
+    public String handleNotificationFeignCallError(RedirectAttributes redirectAttributes, NotificationServiceFeignCallException exception) {
+
+        String message = exception.getMessage ();
+        redirectAttributes.addFlashAttribute("deleteHistoryErrorMessage", message);
+
+        return "redirect:/notifications";
     }
 
 
@@ -47,11 +62,12 @@ public class ExceptionAdvice  {
             NoResourceFoundException.class, // Когато се опитва да достъпи невалиден ендпойнт
             MethodArgumentTypeMismatchException.class,
             MissingRequestValueException.class
-    })
+            })
     public ModelAndView handleNotFoundExceptions(Exception exception) {
 
         return new ModelAndView("not-found");
     }
+
 
 
 

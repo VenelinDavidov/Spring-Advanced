@@ -131,8 +131,6 @@ public class NotificationService {
 
 
 
-
-
     public List <Notification> getNotificationHistory(UUID userId) {
 
       return notificationRepository.findAllByUserIdAndDeletedIsFalse (userId);
@@ -148,4 +146,61 @@ public class NotificationService {
         notificationPreference.setEnabled (enabled);
         return preferenceRepository.save (notificationPreference);
     }
+
+
+
+
+
+    public void deleteNotificationHistory(UUID userId) {
+
+        List <Notification> notifications = getNotificationHistory (userId); // get all notifications
+        
+        notifications.forEach (notification -> {
+
+                notification.setDeleted (true);
+                notificationRepository.save (notification);
+           });
+        }
+
+
+
+
+        
+    public void retryFailedNotifications(UUID userId) {
+
+        NotificationPreference userPreference = getPreferenceByUserId(userId);
+        // check if notification is enabled
+        if (!userPreference.isEnabled()) {
+            throw new IllegalArgumentException("User with id %s does not allow to receive notifications.".formatted(userId));
+        }
+
+        List <Notification> failedNotifications = notificationRepository.findAllByUserIdAndStatus (userId, NotificationStatus.FAILED);
+
+        failedNotifications = failedNotifications
+                .stream()
+                .filter(notification ->  !notification.isDeleted()).toList(); // filter out for not deleted notifications
+
+        failedNotifications.forEach (notification -> {
+
+            try {
+                SimpleMailMessage message = new SimpleMailMessage ();
+                message.setTo (userPreference.getContactInfo ());
+                message.setSubject (notification.getSubject ());
+                message.setText (notification.getBody ());
+
+                mailSender.send (message);
+                notification.setStatus (NotificationStatus.SUCCEEDED);
+
+            } catch (Exception e) {
+                notification.setStatus (NotificationStatus.FAILED);
+                log.warn ("There was an issue sending an email to %s due to %s.".formatted (userPreference.getContactInfo (), e.getMessage ()));
+            }
+
+            notificationRepository.save (notification);
+        });
+
+
+
+    }
 }
+

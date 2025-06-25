@@ -5,6 +5,8 @@ import app.email.client.dto.Notification;
 import app.email.client.dto.NotificationPreference;
 import app.email.client.dto.NotificationRequest;
 import app.email.client.dto.UpsertNotificationPreference;
+import app.exception.NotificationServiceFeignCallException;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,12 @@ import java.util.UUID;
 public class NotificationService {
 
     private final NotificationClient notificationClient;
+
+    @Value("${notification-svc.failure-message.clear-history}")
+    private String clearHistoryFailedMassage ;
+
+
+
 
     @Autowired
     public NotificationService(NotificationClient notificationClient) {
@@ -102,7 +110,7 @@ public class NotificationService {
 
 
 
-
+    // update notification preferences
     public void updateNotificationPreference(UUID userId, boolean enabled) {
 
         try {
@@ -110,5 +118,33 @@ public class NotificationService {
         } catch (Exception e) {
             log.warn("Can't update notification preferences for user with id = [%s].".formatted(userId));
         }
+    }
+
+
+
+
+    // delete notification history
+    public void deleteNotificationHistory(UUID userId) {
+
+        try {
+            notificationClient.deleteNotificationHistory(userId);
+        } catch (Exception e) {
+
+            log.error("Can't delete notification history for user with id = [%s].".formatted(userId));
+            throw new NotificationServiceFeignCallException (clearHistoryFailedMassage);
+        }
+    }
+
+
+
+    public void retryFailedNotifications(UUID userId) {
+
+        try {
+            notificationClient.retryFailedNotifications(userId);
+        } catch (Exception e) {
+            log.error("Can't retry failed notifications for user with id = [%s].".formatted(userId));
+            throw new NotificationServiceFeignCallException (clearHistoryFailedMassage);
+        }
+
     }
 }
