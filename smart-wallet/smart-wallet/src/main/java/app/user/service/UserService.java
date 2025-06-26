@@ -98,10 +98,6 @@ public class UserService  implements UserDetailsService {
 
         User user = getById(userId);
 
-        if (userEditRequest.getEmail ().isBlank ()) {
-            notificationService.saveNotificationPreference (userId , false, null);
-        }
-
         user.setFirstName(userEditRequest.getFirstName());
         user.setLastName(userEditRequest.getLastName());
         user.setEmail(userEditRequest.getEmail());
