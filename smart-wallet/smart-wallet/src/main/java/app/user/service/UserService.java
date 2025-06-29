@@ -84,7 +84,7 @@ public class UserService  implements UserDetailsService {
         Wallet standardWallet = walletService.initializeFirstWallet(user);
         user.setWallets(List.of(standardWallet));
 
-        //Persist new Notification Preference with isEnabled = false
+//        Persist new Notification Preference with isEnabled = false
 //        notificationService.saveNotificationPreference (user.getId (), false, null );
 
         log.info ("Successfully created new user for username [%s] with id [%s].".formatted (user.getUsername (), user.getId ()));
@@ -121,8 +121,8 @@ public class UserService  implements UserDetailsService {
         return User.builder ()
                 .username (dto.getUsername ())
                 .password (passwordEncoder.encode (dto.getPassword ()))
-                .role (userProperties.getDefaultRole ())
-                .isActive (userProperties.isActiveByDefault ())
+                .role (UserRole.USER)
+                .isActive (true)
                 .country (dto.getCountry ())
                 .createdOn (LocalDateTime.now ())
                 .updatedOn (LocalDateTime.now ())
@@ -144,9 +144,11 @@ public class UserService  implements UserDetailsService {
     }
 
 
+
+
     public void switchStatus(UUID userId) {
 
-        User user = userRepository.getById (userId);
+        User user = getById(userId);
         user.setActive (!user.isActive ());
 //        if (user.isActive ()){
 //            user.setActive (false);
@@ -158,9 +160,11 @@ public class UserService  implements UserDetailsService {
     }
 
 
+
+
     public void switchRole(UUID userId) {
 
-        User user = userRepository.getById (userId);
+        User user = getById (userId);
 
         if (user.getRole () == UserRole.USER){
             user.setRole (UserRole.ADMIN);
@@ -170,6 +174,10 @@ public class UserService  implements UserDetailsService {
 
         userRepository.save (user);
     }
+
+
+
+
 
     // after that every user login, this method will be executed and give details for this user with username
     @Override
@@ -181,4 +189,5 @@ public class UserService  implements UserDetailsService {
 
         return new AuthenticationMetadata (user.getId (), user.getUsername (), user.getPassword (), user.getRole (), user.isActive ());
     }
+
 }
