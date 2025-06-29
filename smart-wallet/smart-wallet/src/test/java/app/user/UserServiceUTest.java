@@ -293,7 +293,8 @@ public class UserServiceUTest {
 
 
 
-
+    // if user is ADMIN -> expected role is USER
+    // if user is USER -> expected role is ADMIN
     @ParameterizedTest
     @MethodSource("userRolesArguments")
     void givenChangeRole_whenSwitchRole_thenRoleIsChanged(UserRole currentRole, UserRole expectedRole) {
@@ -304,6 +305,7 @@ public class UserServiceUTest {
         User user = User.builder()
                 .role(currentRole) //if role is ADMIN -> expected role is USER
                 .build();
+
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         //When
