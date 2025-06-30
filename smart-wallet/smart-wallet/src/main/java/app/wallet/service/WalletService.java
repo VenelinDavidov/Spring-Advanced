@@ -1,6 +1,5 @@
 package app.wallet.service;
 
-import app.email.service.NotificationService;
 import app.exception.DomainException;
 import app.subscription.model.Subscription;
 import app.subscription.model.SubscriptionType;
@@ -12,7 +11,7 @@ import app.user.model.User;
 import app.wallet.model.Wallet;
 import app.wallet.model.WalletStatus;
 import app.wallet.repository.WalletRepository;
-import app.web.dto.TransferRequest;
+import app.web.dtoMapper.TransferRequest;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

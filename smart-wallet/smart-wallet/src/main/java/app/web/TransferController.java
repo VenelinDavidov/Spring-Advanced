@@ -5,8 +5,7 @@ import app.transaction.model.Transaction;
 import app.user.model.User;
 import app.user.service.UserService;
 import app.wallet.service.WalletService;
-import app.web.dto.TransferRequest;
-import jakarta.servlet.http.HttpSession;
+import app.web.dtoMapper.TransferRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/transfers")

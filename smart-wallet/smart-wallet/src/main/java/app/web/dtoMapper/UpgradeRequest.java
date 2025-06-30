@@ -1,4 +1,4 @@
-package app.web.dto;
+package app.web.dtoMapper;
 
 import app.subscription.model.SubscriptionPeriod;
 import lombok.Builder;

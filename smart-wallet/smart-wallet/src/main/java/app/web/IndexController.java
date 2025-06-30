@@ -1,12 +1,11 @@
 package app.web;
 
-import app.exception.UsernameAlreadyExistException;
 import app.security.AuthenticationMetadata;
 
 import app.user.model.User;
 import app.user.service.UserService;
-import app.web.dto.LoginRequest;
-import app.web.dto.RegisterRequest;
+import app.web.dtoMapper.LoginRequest;
+import app.web.dtoMapper.RegisterRequest;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class IndexController {
+
 
     private final UserService userService;
 

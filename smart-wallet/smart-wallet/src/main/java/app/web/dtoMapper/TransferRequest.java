@@ -1,4 +1,4 @@
-package app.web.dto;
+package app.web.dtoMapper;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
