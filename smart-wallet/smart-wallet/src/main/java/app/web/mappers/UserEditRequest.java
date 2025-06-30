@@ -1,4 +1,4 @@
-package app.web.dtoMapper;
+package app.web.mappers;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;

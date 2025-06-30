@@ -1,4 +1,4 @@
-package app.web.dtoMapper;
+package app.web.mappers;
 
 import app.user.model.User;
 import app.web.mapper.DtoMapper;

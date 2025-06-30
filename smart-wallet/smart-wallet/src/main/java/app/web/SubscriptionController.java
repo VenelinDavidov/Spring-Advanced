@@ -6,7 +6,7 @@ import app.subscription.service.SubscriptionService;
 import app.transaction.model.Transaction;
 import app.user.model.User;
 import app.user.service.UserService;
-import app.web.dtoMapper.UpgradeRequest;
+import app.web.mappers.UpgradeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

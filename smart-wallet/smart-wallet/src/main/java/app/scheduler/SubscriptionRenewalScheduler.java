@@ -8,7 +8,7 @@ import app.subscription.service.SubscriptionService;
 import app.transaction.model.Transaction;
 import app.transaction.model.TransactionStatus;
 import app.user.model.User;
-import app.web.dtoMapper.UpgradeRequest;
+import app.web.mappers.UpgradeRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

@@ -1,6 +1,8 @@
 package app.web;
 
 
+import app.security.AuthenticationMetadata;
+import app.user.model.UserRole;
 import app.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +11,12 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.util.UUID;
+
+import static app.TestBuilder.aRandomUser;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -77,7 +83,7 @@ public class IndexControllerApiTest {
 
 
     @Test
-    void getRequestToLogoutEndpointWithErrorParameter_shouldReturnLoginPageAndErrorMessageAttribute() throws Exception {
+    void getRequestToLoginEndpointWithErrorParameter_shouldReturnLoginPageAndErrorMessageAttribute() throws Exception {
 
         MockHttpServletRequestBuilder requestBuilder =
                 get("/login")
@@ -111,7 +117,7 @@ public class IndexControllerApiTest {
 
 
     @Test
-    void postRequestToRegisterEndpointWithInvalidData_returnRegisterPage() throws Exception {
+    void postRequestToRegisterEndPointWithInvalidData_returnRegisterPage() throws Exception {
 
         MockHttpServletRequestBuilder requestBuilder = post("/register")
                 .formField ("username", "")
@@ -123,6 +129,47 @@ public class IndexControllerApiTest {
                 .andExpect (status ().is (200))
                 .andExpect (view ().name ("register"));
         verify (userService, never ()).register (any ());
+    }
+
+
+    @Test
+    void getRequestAuthenticateToHome_shouldReturnHomeView() throws Exception {
+
+        when (userService.getById (any ())).thenReturn (aRandomUser ());
+
+        UUID userId = UUID.randomUUID ();
+        AuthenticationMetadata principal = new AuthenticationMetadata
+                (
+                           userId,
+                "Ven123",
+                "123123",
+                     UserRole.USER,
+                      true
+                );
+
+        MockHttpServletRequestBuilder requestBuilder = get("/home")
+                .with (user(principal));
+
+        mockMvc.perform(requestBuilder)
+                .andExpect (status().is (200))
+                .andExpect (view().name ("home"))
+                .andExpect (model().attributeExists ("user"));
+
+        verify (userService, times (1)).getById (userId);
+    }
+
+
+
+
+    @Test
+    void getRequestUnAuthenticateToHome_redirectToLogin() throws Exception {
+
+        MockHttpServletRequestBuilder requestBuilder = get("/home");
+
+        mockMvc.perform(requestBuilder)
+                .andExpect (status().is3xxRedirection());
+        verify (userService, never ()).getById (any ());
+
     }
 
 }
