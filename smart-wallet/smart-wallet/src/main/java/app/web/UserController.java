@@ -3,7 +3,7 @@ package app.web;
 import app.security.AuthenticationMetadata;
 import app.user.model.User;
 import app.user.service.UserService;
-import app.web.mappers.UserEditRequest;
+import app.web.dto.UserEditRequest;
 import app.web.mapper.DtoMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +92,7 @@ public class UserController {
 
     @PutMapping("/{id}/status")// PUT -> /users/ {id} /status
     @PreAuthorize("hasRole('ADMIN')")
-    public String updateUserStatus (@PathVariable UUID id){
+    public String switchUserStatus (@PathVariable UUID id){
 
         userService.switchStatus(id);
 
@@ -100,11 +100,13 @@ public class UserController {
     }
 
 
-    @PutMapping("/{id}/role")// PUT -> /users/ {id} /role
-    @PreAuthorize("hasRole('ADMIN')")
-    public String updateUserRole (@PathVariable UUID id){
 
-        userService.switchRole (id);
+
+    @PutMapping("/{id}/role") // PUT /users/{id}/role
+    @PreAuthorize("hasRole('ADMIN')")
+    public String switchUserRole(@PathVariable UUID id) {
+
+        userService.switchRole(id);
 
         return "redirect:/users";
     }

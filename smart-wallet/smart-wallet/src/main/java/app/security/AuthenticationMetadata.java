@@ -35,11 +35,10 @@ public class AuthenticationMetadata implements UserDetails {
         // hasAuthority("ADMIN") -> "ADMIN"
         // Permission: CAN_EDIT_USER_PROFILES
 
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority ("ROLE_" + role.name ());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.name());
 
         return List.of (authority);
     }
-
 
     @Override
     public String getPassword() {

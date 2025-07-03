@@ -5,7 +5,7 @@ import app.transaction.model.Transaction;
 import app.user.model.User;
 import app.user.service.UserService;
 import app.wallet.service.WalletService;
-import app.web.mappers.TransferRequest;
+import app.web.dto.TransferRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

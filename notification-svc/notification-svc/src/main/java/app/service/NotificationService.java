@@ -70,6 +70,7 @@ public class NotificationService {
                 .createdOn (java.time.LocalDate.now ())
                 .updatedOn (java.time.LocalDate.now ())
                 .build ();
+
                return preferenceRepository.save (notificationPreference);
     }
 

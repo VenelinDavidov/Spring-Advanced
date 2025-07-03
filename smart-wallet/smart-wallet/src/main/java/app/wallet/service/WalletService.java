@@ -11,7 +11,7 @@ import app.user.model.User;
 import app.wallet.model.Wallet;
 import app.wallet.model.WalletStatus;
 import app.wallet.repository.WalletRepository;
-import app.web.mappers.TransferRequest;
+import app.web.dto.TransferRequest;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

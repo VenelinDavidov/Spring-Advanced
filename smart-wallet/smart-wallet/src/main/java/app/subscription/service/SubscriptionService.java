@@ -11,7 +11,7 @@ import app.transaction.model.Transaction;
 import app.transaction.model.TransactionStatus;
 import app.user.model.User;
 import app.wallet.service.WalletService;
-import app.web.mappers.UpgradeRequest;
+import app.web.dto.UpgradeRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

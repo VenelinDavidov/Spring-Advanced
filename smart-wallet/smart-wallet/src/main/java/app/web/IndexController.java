@@ -4,8 +4,8 @@ import app.security.AuthenticationMetadata;
 
 import app.user.model.User;
 import app.user.service.UserService;
-import app.web.mappers.LoginRequest;
-import app.web.mappers.RegisterRequest;
+import app.web.dto.LoginRequest;
+import app.web.dto.RegisterRequest;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

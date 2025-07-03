@@ -1,4 +1,4 @@
-package app.web.mappers;
+package app.web.dto;
 
 import app.user.model.Country;
 import jakarta.validation.constraints.NotNull;

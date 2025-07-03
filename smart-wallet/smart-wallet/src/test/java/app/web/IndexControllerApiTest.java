@@ -1,6 +1,7 @@
 package app.web;
 
 
+import app.exception.UsernameAlreadyExistException;
 import app.security.AuthenticationMetadata;
 import app.user.model.UserRole;
 import app.user.service.UserService;
@@ -48,6 +49,27 @@ public class IndexControllerApiTest {
                 .andExpect (view().name ("index"));
 
 
+    }
+
+    @Test
+    void postRequestToRegisterEndpointWhenUsernameAlreadyExist_thenRedirectToRegisterWithFlashParameter() throws Exception {
+
+        // 1. Build Request
+        when(userService.register(any())).thenThrow(new UsernameAlreadyExistException("Username already exist!"));
+        MockHttpServletRequestBuilder request = post("/register")
+                .formField("username", "Vik123")
+                .formField("password", "123456")
+                .formField("country", "BULGARIA")
+                .with(csrf());
+
+
+        // 2. Send Request
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/register"))
+                .andExpect(flash().attributeExists("usernameAlreadyExist"));
+
+        verify(userService, times(1)).register(any());
     }
 
 

@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.nio.file.AccessDeniedException;
+
 
 @ControllerAdvice
 public class ExceptionAdvice  {
@@ -63,7 +63,8 @@ public class ExceptionAdvice  {
             MethodArgumentTypeMismatchException.class,
             MissingRequestValueException.class
             })
-    public ModelAndView handleNotFoundExceptions(Exception exception) {
+    public ModelAndView handleNotFoundExceptions() {
+
 
         return new ModelAndView("not-found");
     }

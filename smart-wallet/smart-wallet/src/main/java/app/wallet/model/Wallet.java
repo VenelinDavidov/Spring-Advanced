@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.UUID;
 
-@Entity
-@Getter
 @Builder
+@Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class Wallet {
 
     @Id
@@ -25,7 +25,6 @@ public class Wallet {
     private User owner;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private WalletStatus status;
 
     @Column(nullable = false)
@@ -37,8 +36,7 @@ public class Wallet {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
-
     @Column(nullable = false)
-    private LocalDateTime  updatedOn;
+    private LocalDateTime updatedOn;
 
 }

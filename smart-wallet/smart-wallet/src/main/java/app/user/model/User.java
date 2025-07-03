@@ -10,13 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Getter
 @Builder
+@Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "users") // ВАЖНО: 'user' key word in H2
 public class User {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,12 +27,9 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column
     private String firstName;
 
-    @Column
     private String lastName;
-
 
     private String profilePicture;
 
@@ -41,9 +40,11 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserRole role;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Country country;
 
     private boolean isActive;
@@ -59,7 +60,7 @@ public class User {
     private List<Subscription> subscriptions = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
-    @OrderBy("createdOn ASC ")
-    private List<Wallet> wallets = new ArrayList<> ();
+    @OrderBy("createdOn ASC")
+    private List<Wallet> wallets = new ArrayList<>();
 }
 
